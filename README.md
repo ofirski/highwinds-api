@@ -24,9 +24,11 @@ In order to use this gem follow the installation instructions and properly set y
 	HighwindsAPI.set_credentials(username, password)
 
 Purge by path:
+
 	HighwindsAPI::Content.purge_url("http://path.to.folder/or_a_file")
 
 Purge recursivly:
+
 	HighwindsAPI::Content.purge_url("http://path.to.folder/", true)
 
 ## Contributing
