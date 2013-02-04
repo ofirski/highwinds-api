@@ -8,12 +8,13 @@ Gem::Specification.new do |gem|
   gem.version       = Highwinds::Api::VERSION
   gem.authors       = ["Ofir Kerker"]
   gem.email         = ["ofir@crossrider.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Ruby implementation of Highwinds REST API}
+  gem.summary       = %q{Ruby implementation of Highwinds REST API}
+  gem.homepage      = "https://github.com/kerkero/highwinds-api"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+  gem.add_dependency "httparty", "~> 0.10.2"
 end

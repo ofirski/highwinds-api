@@ -1,6 +1,6 @@
 # Highwinds::Api
 
-TODO: Write a gem description
+This is a Ruby implementation of Highwinds REST API.
 
 ## Installation
 
@@ -18,7 +18,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In order to use this gem follow the installation instructions and properly set your credentials:
+  	username = "<Your username>"
+  	password = "<Your password>"
+	HighwindsAPI.set_credentials(username, password)
+
+Purge by path:
+	HighwindsAPI::Content.purge_url("http://path.to.folder/or_a_file")
+
+Purge recursivly:
+	HighwindsAPI::Content.purge_url("http://path.to.folder/", true)
 
 ## Contributing
 
