@@ -19,6 +19,7 @@ Or install it yourself as:
 ## Usage
 
 In order to use this gem follow the installation instructions and properly set your credentials:
+
   	username = "<Your username>"
   	password = "<Your password>"
 	HighwindsAPI.set_credentials(username, password)
