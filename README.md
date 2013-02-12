@@ -24,13 +24,22 @@ In order to use this gem follow the installation instructions and properly set y
   	password = "<Your password>"
 	HighwindsAPI.set_credentials(username, password)
 
-Purge by path:
+Purge by url:
 
 	HighwindsAPI::Content.purge_url("http://path.to.folder/or_a_file")
 
-Purge recursivly:
+Purge by url recursively:
 
 	HighwindsAPI::Content.purge_url("http://path.to.folder/", true)
+
+Purge folder by path (recursively):
+
+	HighwindsAPI::Content.purge_path("a1b2c3d4", "folder/")
+	
+Purge file by path:
+
+	HighwindsAPI::Content.purge_path("a1b2c3d4", "folder/file")
+
 
 ## Contributing
 
