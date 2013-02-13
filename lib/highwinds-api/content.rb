@@ -20,13 +20,10 @@ module HighwindsAPI
                         'Accept'        => 'application/xml' },
       :basic_auth =>  HighwindsAPI.credentials }
       res = nil
-      if path.is_a? Array
-        path.each do |url|
-          res = self.delete("/#{host_hash}/cds/#{url.chomp('*')}", options)
-        end 
-      else
-        res = self.delete("/#{host_hash}/cds/#{path.chomp('*')}", options)  
-      end
+      path = [*path]
+      path.each do |url|
+        res = self.delete("/#{host_hash}/cds/#{url.chomp('*')}", options)
+      end 
       res
     end
 
