@@ -19,7 +19,15 @@ module HighwindsAPI
       :headers    =>  { 'Content-Type'  => 'application/xml', 
                         'Accept'        => 'application/xml' },
       :basic_auth =>  HighwindsAPI.credentials }
-      self.delete("/#{host_hash}/cds/#{path}", options)
+      res = nil
+      if path.is_a? Array
+        path.each do |url|
+          res = self.delete("/#{host_hash}/cds/#{url.chomp('*')}", options)
+        end 
+      else
+        res = self.delete("/#{host_hash}/cds/#{path.chomp('*')}", options)  
+      end
+      res
     end
 
   end
