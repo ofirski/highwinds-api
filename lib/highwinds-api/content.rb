@@ -22,7 +22,10 @@ module HighwindsAPI
       res = nil
       path = [*path]
       path.each do |url|
-        res = self.delete("/#{host_hash}/cds/#{url.chomp('*')}", options)
+        temp_res = self.delete("/#{host_hash}/cds/#{url.chomp('*')}", options)
+        if res.nil? || res.response.code == "200"
+          res = temp_res
+        end
       end 
       res
     end
