@@ -10,6 +10,7 @@ describe HighwindsAPI do
   end
 
   it "autoloads ::Content" do
-    subject.autoload?(:Content).should eq("highwinds-api/content")
+    # subject.autoload?(:Content).should eq("highwinds-api/content")
+    subject::Content.should eq(HighwindsAPI::Content)
   end
 end

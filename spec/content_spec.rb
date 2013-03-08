@@ -48,4 +48,37 @@ describe HighwindsAPI::Content do
     end
   end
 
+  describe "basic functionaility" do
+    let(:host_hash) { "xxxxxxxx" }
+    let(:path) { "baz/*" }
+    let(:url) { "http://foo.bar.com/baz" }
+    let(:recursive) { false }
+    let(:options) {
+      options = {
+      headers: {
+        'Content-Type'  => 'application/xml',
+        'Accept'        => 'application/xml'
+      },
+      basic_auth: HighwindsAPI.credentials }
+    }
+
+    describe ".purge_url" do
+      it "calls delete with given params" do
+        content.should_receive(:delete).\
+          with("?recursive=#{recursive}&url=#{url}", options).\
+          and_return("403")
+        content.purge_url(url, recursive)
+      end
+    end
+
+    describe ".purge_path" do
+      it "calls delete with given params" do
+        content.should_receive(:delete).\
+          with("/#{host_hash}/cds/#{path.chop}", options).\
+          and_return("403")
+        content.purge_path(host_hash, path)
+      end
+    end
+  end
+
 end
