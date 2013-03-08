@@ -1,6 +1,6 @@
 require 'highwinds-api'
 
-describe 'HighwindsAPI::Content' do
+describe HighwindsAPI::Content do
   let(:config) { YAML.load_file('spec/config.yml') }
   let(:client) { HighwindsAPI }
   let(:content) { client::Content }
