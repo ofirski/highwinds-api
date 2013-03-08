@@ -1,6 +1,7 @@
 require "highwinds-api/version"
 
 module HighwindsAPI
+  autoload :Content, "highwinds-api/content"
 
   def self.credentials
     { :username => @username,
