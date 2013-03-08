@@ -18,5 +18,4 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.add_dependency "httparty", "~> 0.10"
   gem.add_development_dependency "rspec", "~> 2.11"
-  gem.add_development_dependency "rake", "~> 0.9"
 end
