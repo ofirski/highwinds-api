@@ -1,14 +1,4 @@
 *.gem
 *.rbc
-.bundle
-.config
-.yardoc
-InstalledFiles
-_yardoc
-coverage
-doc/
-lib/bundler/man
 pkg
-rdoc
-spec/reports
 spec/config.yml
