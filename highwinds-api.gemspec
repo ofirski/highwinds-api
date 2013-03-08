@@ -16,5 +16,7 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
-  gem.add_dependency "httparty", "~> 0.10.2"
+  gem.add_dependency "httparty", "~> 0.10"
+  gem.add_development_dependency "rspec", "~> 2.11"
+  gem.add_development_dependency "rake", "~> 0.9"
 end

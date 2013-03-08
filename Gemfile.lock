@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    highwinds-api (0.0.5)
-      httparty (~> 0.10.2)
+    highwinds-api (0.0.6)
+      httparty (~> 0.10)
 
 GEM
   remote: https://rubygems.org/
@@ -29,4 +29,4 @@ PLATFORMS
 DEPENDENCIES
   highwinds-api!
   rake (~> 0.9)
-  rspec (~> 2.0)
+  rspec (~> 2.11)
