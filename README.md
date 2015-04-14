@@ -1,4 +1,4 @@
-# Highwinds::Api
+# Highwinds::Api  [![Gem Version](https://badge.fury.io/rb/highwinds-api.svg)](http://badge.fury.io/rb/highwinds-api)
 
 This is a Ruby implementation of Highwinds REST API.
 
