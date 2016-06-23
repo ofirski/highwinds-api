@@ -2,3 +2,4 @@
 *.rbc
 pkg
 spec/config.yml
+.bundle
