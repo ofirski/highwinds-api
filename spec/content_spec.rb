@@ -73,7 +73,7 @@ describe HighwindsAPI::Content do
       response.code.should eq("200"), "response was: #{response}"
     end
 
-    it "should purge folders by array of pathes" do
+    it "should purge folders by array of paths" do
       stub_request(:post, "https://striketracker3.highwinds.com/api/v1/accounts/12345/purge").
         with(:body => "{\"list\":[{\"url\":\"http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.txt\",\"recursive\":true},{\"url\":\"http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.htm\",\"recursive\":true},{\"url\":\"http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.gif\",\"recursive\":true}]}",
              :headers => {'Authorization'=>'Bearer atoken', 'Content-Type'=>'application/json'}).
@@ -84,7 +84,22 @@ describe HighwindsAPI::Content do
       response.code.should eq("200"), "response was: #{response}"
     end
 
-    it "should ignore pathes ending with * (purge by path is allways recuresive)" do
+    it "should purge list of urls" do
+      stub_request(:post, "https://striketracker3.highwinds.com/api/v1/accounts/12345/purge").
+        with(:body => "{\"list\":[{\"url\":\"http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.txt\",\"recursive\":true},{\"url\":\"http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.htm\",\"recursive\":true},{\"url\":\"http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.gif\",\"recursive\":true}]}",
+             :headers => {'Authorization'=>'Bearer atoken', 'Content-Type'=>'application/json'}).
+        to_return(:status => 200, :body => '{"id":"id"}', :headers => { content_type: 'application/json' })
+
+      arr = [
+        { url: "http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.txt", recursive: true},
+        { url: "http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.htm", recursive: true},
+        { url: "http://cds.y2s9x4y9.hwcdn.net/kerker/akamai.gif", recursive: true}
+      ]
+      response = content.purge(arr).response
+      response.code.should eq("200"), "response was: #{response}"
+    end
+
+    it "should ignore paths ending with * (purge by path is allways recuresive)" do
       stub_request(:post, "https://striketracker3.highwinds.com/api/v1/accounts/12345/purge").
         with(:body => "{\"list\":[{\"url\":\"http://cds.y2s9x4y9.hwcdn.net/kerker/*\",\"recursive\":true}]}",
              :headers => {'Authorization'=>'Bearer atoken', 'Content-Type'=>'application/json'}).
