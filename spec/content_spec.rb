@@ -161,8 +161,21 @@ describe HighwindsAPI::Content do
           with("/api/v1/accounts/#{account_hash}/purge", options).
           and_return("403")
         content.purge_path(host_hash, path)
-       end
-     end
-  end
+      end
+    end
 
+    describe ".purge" do
+      it "calls post with given params" do
+        options = {
+          :headers => { 'Authorization' => HighwindsAPI.get_token,
+                        'Content-Type' => 'application/json' },
+          :body => { "list" => [{ url: "http://cds.xxxxxxxx.hwcdn.net/baz/*", recursive: true }] }.to_json
+        }
+        content.should_receive(:post).\
+          with("/api/v1/accounts/#{account_hash}/purge", options).
+          and_return("403")
+        content.purge([{ url: "http://cds.xxxxxxxx.hwcdn.net/baz/*", recursive: true }])
+      end
+    end
+  end
 end
