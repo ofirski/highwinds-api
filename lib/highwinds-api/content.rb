@@ -6,39 +6,48 @@ module HighwindsAPI
 
     base_uri 'https://striketracker3.highwinds.com/'
 
-    def self.purge_url(url, recursive)
+    def self.purge_path(host_hash, path)
+      list = [*path].map do |apath|
+        purge_path = apath.sub(/^\/+/, '')
+        { url: "http://cds.#{host_hash}.hwcdn.net/#{purge_path}", recursive: true }
+      end
+      purge(list)
+    end
+
+    def self.purge_url(url, recursive = false)
+      purge([url: url, recursive: recursive])
+    end
+
+    def self.purge(list)
       options = {
-      :headers    =>  { 'Authorization'  => HighwindsAPI.get_token,
-        'Content-Type' => 'application/json'},
-      :body =>  {"list" => [{url: url, recursive: recursive }]}.to_json }
+        headers: {
+          'Authorization' => HighwindsAPI.get_token,
+          'Content-Type' => 'application/json'
+        },
+        body: { list: list }.to_json
+      }
       self.post("/api/v1/accounts/#{get_account_hash}/purge", options)
     end
 
-    # This method returns the last item post result
-    def self.purge_path(host_hash, path)
-      paths =[*path]
-      paths = paths.map {|single_path| single_path.start_with?('/') ? single_path : '/' << single_path }
-      res=nil
-      paths.each do |path|
-        options = {
-        :headers    =>  { 'Authorization'  => HighwindsAPI.get_token, 
-                          'Content-Type' => 'application/json'},
-        :body =>  {"list" => [{url: "http://cds.#{host_hash}.hwcdn.net#{path}", recursive: true }]}.to_json }
-        res = self.post("/api/v1/accounts/#{get_account_hash}/purge", options)
-      end
-      res
-    end
     private
+
     def self.get_token
-      response = self.post("/auth/token", {body: {grant_type: 'password', username: "#{HighwindsAPI.credentials[:username]}", password: "#{HighwindsAPI.credentials[:password]}"}})
-      "Bearer #{response['access_token']}"      
-    end
-    def self.get_account_hash
       options = {
-        :headers    =>  { 'Authorization'  => HighwindsAPI.get_token }
+        body: {
+          grant_type: 'password',
+          username: HighwindsAPI.credentials[:username],
+          password: HighwindsAPI.credentials[:password]
+        }
       }
-      me = self.get('/api/v1/users/me', options)
-      me['accountHash'] if me.include?('accountHash')
+
+      response = self.post("/auth/token", body: options)
+      "Bearer #{response['access_token']}"
+    end
+
+    def self.get_account_hash
+      options = { headers: { 'Authorization' => HighwindsAPI.get_token } }
+      response = self.get('/api/v1/users/me', options)
+      response['accountHash']
     end
   end
 end
