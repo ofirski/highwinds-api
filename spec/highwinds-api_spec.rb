@@ -1,7 +1,13 @@
-require 'highwinds-api'
+require 'spec_helper'
 
 describe HighwindsAPI do
-  let(:config) { YAML.load_file('spec/config.yml') }
+  let(:config) { load_config }
+
+  before do
+    subject.clear_token
+    stub_request(:post, "https://striketracker3.highwinds.com/auth/token").
+      to_return(:status => 200, :body => '{"access_token": "atokenatokenatoken"}', :headers => { content_type: 'application/json' })
+  end
 
   it "set credentials" do
     username = "user"
@@ -12,7 +18,7 @@ describe HighwindsAPI do
 
   it "get token" do
     subject.set_credentials(config["username"], config["password"])
-    expect(subject.get_token.length).to be  >= 20
+    expect(subject.get_token.length).to be >= 20
   end
 
   it "get token snd time to be the same as first one" do
@@ -21,7 +27,6 @@ describe HighwindsAPI do
     new_token = subject.get_token
     expect(new_token).to be(old_token)
   end
-
 
   it "autoloads ::Content" do
     # subject.autoload?(:Content).should eq("highwinds-api/content")
