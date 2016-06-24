@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    highwinds-api (0.1.1)
+    highwinds-api (1.0.0)
       httparty (= 0.10.2)
 
 GEM

@@ -29,18 +29,23 @@ module HighwindsAPI
       self.post("/api/v1/accounts/#{get_account_hash}/purge", options)
     end
 
+    def self.purge_progress(purge_id)
+      options = { headers: { 'Authorization' => HighwindsAPI.get_token } }
+      self.get("/api/v1/accounts/#{get_account_hash}/purge/#{purge_id}", options)
+    end
+
     private
 
     def self.get_token
       options = {
         body: {
           grant_type: 'password',
-          username: HighwindsAPI.credentials[:username],
-          password: HighwindsAPI.credentials[:password]
+          username: "#{HighwindsAPI.credentials[:username]}",
+          password: "#{HighwindsAPI.credentials[:password]}"
         }
       }
 
-      response = self.post("/auth/token", body: options)
+      response = self.post("/auth/token", options)
       "Bearer #{response['access_token']}"
     end
 

@@ -13,7 +13,7 @@ describe HighwindsAPI::Content do
 
     it "does not purge content" do
       stub_request(:post, "https://striketracker3.highwinds.com/auth/token").
-        with(body: "body[grant_type]=password&body[username]=bad-username&body[password]=bad-password").
+        with(:body => "grant_type=password&username=bad-username&password=bad-password").
         to_return(status: 401, body: '{"error": "This endpoint requires authentication","code": 203}', :headers => { content_type: 'application/json' })
 
       stub_request(:get, "https://striketracker3.highwinds.com/api/v1/users/me").
@@ -35,7 +35,7 @@ describe HighwindsAPI::Content do
       client.set_credentials(config["username"], config["password"])
 
       stub_request(:post, "https://striketracker3.highwinds.com/auth/token").
-        with(:body => "body[grant_type]=password&body[username]=u&body[password]=p").
+        with(:body => "grant_type=password&username=u&password=p").
         to_return(:status => 200, :body => '{"access_token": "atoken"}', :headers => { content_type: 'application/json' })
 
       stub_request(:get, "https://striketracker3.highwinds.com/api/v1/users/me").
@@ -108,6 +108,16 @@ describe HighwindsAPI::Content do
       response = content.purge_path("y2s9x4y9", "kerker/*").response
       response.code.should eq("200"), "response was: #{response}"
     end
+
+    it "should get progress for purge id" do
+      stub_request(:get, "https://striketracker3.highwinds.com/api/v1/accounts/12345/purge/987654321").
+        with(:headers => {'Authorization'=>'Bearer atoken'}).
+        to_return(:status => 200, :body => '{"progress":1}', :headers => {})
+
+      response = content.purge_progress("987654321").response
+      response.code.should eq("200"), "response was: #{response}"
+    end
+
   end
 
   describe "basic functionaility" do
@@ -122,7 +132,7 @@ describe HighwindsAPI::Content do
       client.set_credentials(config["username"], config["password"])
 
       stub_request(:post, "https://striketracker3.highwinds.com/auth/token").
-        with(:body => "body[grant_type]=password&body[username]=u&body[password]=p").
+        with(:body => "grant_type=password&username=u&password=p").
         to_return(:status => 200, :body => '{"access_token":"atoken"}', :headers => { content_type: 'application/json' })
 
       stub_request(:get, "https://striketracker3.highwinds.com/api/v1/users/me").
@@ -175,6 +185,23 @@ describe HighwindsAPI::Content do
           with("/api/v1/accounts/#{account_hash}/purge", options).
           and_return("403")
         content.purge([{ url: "http://cds.xxxxxxxx.hwcdn.net/baz/*", recursive: true }])
+      end
+    end
+
+    describe ".purge_progress" do
+      it "calls get" do
+        purge_id = "987654321"
+        options = { :headers => { 'Authorization' => HighwindsAPI.get_token } }
+
+        content.should_receive(:get).\
+          with("/api/v1/users/me", options).
+          and_return({"accountHash" => account_hash})
+
+        content.should_receive(:get).\
+          with("/api/v1/accounts/#{account_hash}/purge/#{purge_id}", options).
+          and_return({"progress": 1})
+
+        content.purge_progress(purge_id)
       end
     end
   end
