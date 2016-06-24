@@ -1,17 +1,21 @@
 PATH
   remote: .
   specs:
-    highwinds-api (0.0.8)
+    highwinds-api (1.0.0)
       httparty (= 0.10.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.4.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     diff-lcs (1.1.3)
+    hashdiff (0.3.0)
     httparty (0.10.2)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
-    multi_json (1.11.0)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
     rake (0.9.6)
     rspec (2.11.0)
@@ -22,6 +26,11 @@ GEM
     rspec-expectations (2.11.3)
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.11.3)
+    safe_yaml (1.0.4)
+    webmock (2.0.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
 
 PLATFORMS
   ruby
@@ -30,3 +39,7 @@ DEPENDENCIES
   highwinds-api!
   rake (~> 0.9)
   rspec (~> 2.11)
+  webmock
+
+BUNDLED WITH
+   1.12.0
