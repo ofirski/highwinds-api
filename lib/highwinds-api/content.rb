@@ -29,6 +29,8 @@ module HighwindsAPI
       self.post("/api/v1/accounts/#{get_account_hash}/purge", options)
     end
 
+    # N.B. this is an undocumented method, so use at your own risk
+    # it may not continue to work based on highwinds / striketracker changes
     def self.purge_progress(purge_id)
       options = { headers: { 'Authorization' => HighwindsAPI.get_token } }
       self.get("/api/v1/accounts/#{get_account_hash}/purge/#{purge_id}", options)
